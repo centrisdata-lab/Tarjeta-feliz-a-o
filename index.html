@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Año</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: 0 auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    input {
+      padding: 12px;
+      font-size: 16px;
+      width: 80%;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    button {
+      padding: 12px 30px;
+      font-size: 16px;
+      background: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 10px;
+    }
+    button:hover {
+      background: #218838;
+    }
+    #preview {
+      margin-top: 20px;
+      display: none;
+    }
+    #preview img {
+      max-width: 100%;
+      border: 3px solid #ddd;
+      border-radius: 5px;
+      margin: 15px 0;
+    }
+    .instrucciones {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>🎉 Genera tu imagen de Feliz Año 🎉</h2>
+
+    <input
+      type="text"
+      id="nombre"
+      placeholder="Escribe tu nombre"
+    >
+
+    <br>
+
+    <button onclick="generarImagen()">
+      🎨 Generar imagen
+    </button>
+
+    <div id="preview">
+      <h3>Vista previa:</h3>
+      <img id="imagenGenerada" alt="Imagen generada">
+      <br>
+      <button onclick="descargarDirecto()" style="background: #007bff;">
+        💾 Descargar (Método 1)
+      </button>
+      <button onclick="abrirEnNuevaVentana()" style="background: #6c757d;">
+        🔗 Abrir en nueva pestaña (Método 2)
+      </button>
+      
+      <div class="instrucciones">
+        <strong>Si no descarga automáticamente:</strong><br>
+        1. Haz clic derecho en la imagen de arriba<br>
+        2. Selecciona "Guardar imagen como..."<br>
+        3. Elige dónde guardarla
+      </div>
+    </div>
+  </div>
+
+  <canvas id="canvas" width="1080" height="1350" style="display:none;"></canvas>
+
+  <script>
+    let imagenDataURL = null;
+
+    function generarImagen() {
+      const nombre = document.getElementById("nombre").value.trim();
+
+      if (!nombre) {
+        alert("⚠️ Por favor escribe un nombre");
+        return;
+      }
+
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      const imagen = new Image();
+      imagen.crossOrigin = "anonymous";
+      imagen.src = "fondo.jpg";
+
+      imagen.onload = function () {
+        try {
+          // Verificar dimensiones del canvas
+          console.log("Dimensiones del canvas:", canvas.width + "x" + canvas.height);
+
+          // Limpiar canvas
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          // Dibujar fondo
+          ctx.drawImage(imagen, 0, 0, canvas.width, canvas.height);
+
+          // Configurar texto con fuente Poppins
+          ctx.font = "700 42px Poppins, Arial, sans-serif";
+          ctx.fillStyle = "#8A623D";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "top";
+
+          // Dibujar texto centrado con offset hacia la derecha en posición top: 190px
+          const posX = (canvas.width / 2) + 100;
+          const posY = 190;
+          console.log("Dibujando nombre:", nombre, "en posición X:", posX, "Y:", posY);
+          console.log("Color del texto:", ctx.fillStyle);
+          console.log("Fuente:", ctx.font);
+          ctx.fillText(nombre, posX, posY);
+
+          // Guardar la imagen
+          imagenDataURL = canvas.toDataURL("image/png");
+
+          // Mostrar preview
+          document.getElementById("imagenGenerada").src = imagenDataURL;
+          document.getElementById("preview").style.display = "block";
+        } catch (e) {
+          alert("❌ Error al generar la imagen: " + e.message + "\n\nPor favor, abre este archivo usando un servidor local (no directamente desde el explorador de archivos).");
+          console.error("Error:", e);
+        }
+      };
+
+      imagen.onerror = function () {
+        alert("❌ Error: No se encuentra 'fondo.jpg'\n\nAsegúrate de que el archivo 'fondo.jpg' está en la misma carpeta que 'index.html'");
+      };
+    }
+
+    function descargarDirecto() {
+      if (!imagenDataURL) return;
+      
+      const nombre = document.getElementById("nombre").value.trim();
+      
+      try {
+        const link = document.createElement("a");
+        link.download = "feliz-ano-" + nombre + ".png";
+        link.href = imagenDataURL;
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        alert("✅ Descarga iniciada. Revisa tu carpeta de Descargas");
+      } catch (e) {
+        alert("⚠️ No se pudo descargar automáticamente.\nUsa el Método 2 o haz clic derecho en la imagen y selecciona 'Guardar imagen como...'");
+      }
+    }
+
+    function abrirEnNuevaVentana() {
+      if (!imagenDataURL) return;
+      
+      const ventana = window.open();
+      ventana.document.write('<img src="' + imagenDataURL + '" style="max-width:100%;"><br><p>Haz clic derecho en la imagen → "Guardar imagen como..."</p>');
+    }
+  </script>
+
+</body>
+</html>
