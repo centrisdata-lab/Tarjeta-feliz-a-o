@@ -4,7 +4,14 @@
       "Bash(git --version:*)",
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nInicial: Generador de imágenes de Feliz Año\n\n- Interfaz web para generar imágenes personalizadas\n- Canvas HTML5 con texto dinámico\n- Fuente Poppins personalizada\n- Descarga en formato 1080x1350px\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInicial: Generador de imágenes de Feliz Año\n\n- Interfaz web para generar imágenes personalizadas\n- Canvas HTML5 con texto dinámico\n- Fuente Poppins personalizada\n- Descarga en formato 1080x1350px\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(gh --version:*)",
+      "Bash(git fetch:*)",
+      "Bash(dir:*)"
     ]
   }
 }

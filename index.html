@@ -79,6 +79,10 @@
       🎨 Generar imagen
     </button>
 
+    <div id="imagenPedagogia" style="margin-top: 20px;">
+      <img src="Pedagogia.png" alt="Pedagogia" style="max-width: 100%; height: auto; border-radius: 5px;">
+    </div>
+
     <div id="preview">
       <h3>Vista previa:</h3>
       <img id="imagenGenerada" alt="Imagen generada">
@@ -147,7 +151,8 @@
           // Guardar la imagen
           imagenDataURL = canvas.toDataURL("image/png");
 
-          // Mostrar preview
+          // Ocultar imagen de Pedagogia y mostrar preview
+          document.getElementById("imagenPedagogia").style.display = "none";
           document.getElementById("imagenGenerada").src = imagenDataURL;
           document.getElementById("preview").style.display = "block";
         } catch (e) {
